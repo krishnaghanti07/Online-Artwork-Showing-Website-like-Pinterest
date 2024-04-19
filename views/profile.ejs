@@ -1,0 +1,64 @@
+<% include ./partials/header.ejs %>
+
+    <div class="profile w-full min-h-screen bg-zinc-800 text-white pt-1">
+
+        <form id="uploadform" hidden action="/fileupload" method="post" enctype="multipart/form-data">
+
+            <input type="file" name="image">
+
+        </form>
+
+        <div class="profdets flex flex-col items-center justify-center mt-20">
+           
+            <div class="relative">
+                <span id="uploadicon" class="w-10 h-10 absolute bottom-0 right-0 rounded-full flex items-center justify-center bg-zinc-200">
+                    <i class="text-zinc-800 ri-pencil-fill"></i>
+                </span>
+                        <!-- 32 -->
+                <div class="w-40 h-40 bg-zinc-200 rounded-full overflow-hidden">
+                    <img class="w-full h-full object-cover" src="/images/uploads/<%= user.profileImage %>" alt="">
+                </div>
+
+            </div>
+
+            <h1 class="text-3xl font-semibold mt-5"><%= user.name %></h1>
+                        <!-- md -->
+            <h3 class="text-lg">@<%= user.username %></h3>
+                                                                    <!-- xs -->
+            <a href="/edit" class="mt-5 px-7 py-2 bg-zinc-700 rounded-full text-sm font-semibold">Edit</a>
+
+            <a href="/add" class="px-7 py-2 rounded-lg bg-red-700 text-sm font-semibold mt-10">Add New Post</a>
+
+        </div>
+
+        <div class="cards flex flex-wrap gap-10 px-10 mt-10">
+            
+            <div class="card">
+
+                <div class="w-52 h-40 bg-zinc-200 rounded-lg overflow-hidden">
+                                                                    <!-- conditional rendering in ejs   (if it's not available it won't show-up)-->
+                    <img class="w-full h-full object-cover" src="/images/uploads/<%= user?.posts[0]?.image %>" alt="">
+                </div>
+                        <!-- lg -->
+                <a href="/show/posts" class="inline-block text-xl font-semibold mt-3">Your Uploaded Pins</a>
+                <h5 class="text-sm font-medium opacity-60"><%= user.posts.length %> Pins</h5>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        document.querySelector("#uploadicon").addEventListener("click" , function() {
+            document.querySelector("#uploadform input").click() ;  // We transfer the "click" from this "pencil-icon" to the "upload-form-input"
+        }) ;
+
+        document.querySelector("#uploadform input").addEventListener("change" , function() { // if there is change in the "file" of the "input" of "upload-form"
+            document.querySelector("#uploadform").submit() ;  // If the file is "Selected" or "Changed" ; Then simply submit the "upload-form"
+        })
+
+    </script>
+
+<% include ./partials/footer.ejs %>
